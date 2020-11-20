@@ -35,7 +35,7 @@ public class Console {
                 if (processid == 0) {
 
                     break;
-                } else if (processid == 1) {
+                } else if (processid == 1 ||processid==2||processid==5) {
                     read.nextLine();
                     System.out.println("please enter task id");
                     int id = Integer.valueOf(read.nextLine());
@@ -50,40 +50,33 @@ public class Console {
                     //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                     LocalDateTime dueDate = LocalDateTime.parse(duedate);
 
-                    Database.listofaddedtasklist.add(new Task(id,name,String.valueOf(Task.Status.ADDED),dueDate));
 
+                    switch(processid){
+                        case 1:
+                            Database.listofaddedtasklist.add(new Task(id,name,String.valueOf(Task.Status.ADDED),dueDate));
+                            break;
+                        case 2:
+                            System.out.println("please add task startdate like this format  (yyyy-MM-dd)");
+                            String startdate = read.next();
+                            startdate += "T12:00:00";
 
-                }
+                            LocalDateTime starDate = LocalDateTime.parse(startdate);
+                            System.out.println("please add task finishdate like this format  (yyyy-MM-dd)");
+                            String finishdate = read.next();
+                            finishdate += "T12:00:00";
 
-                else if (processid == 2) {
-                    System.out.println("which task do you want to timed task  please enter id");
-                    int timedtaskid = read.nextInt();
-                    System.out.println("please add task name");
-                    String name = read.next();
+                            LocalDateTime endDate = LocalDateTime.parse(finishdate);
+                            Database.listofaddedtimedtasklist.add(new Timedtask(id, name, String.valueOf(Task.Status.SCHEDULED), dueDate, starDate, endDate));
+                            break;
+                        case 5:
 
-                    System.out.println("please add task due date like this format  (yyyy-MM-dd)");
-                    String duedate = read.next();
-                    duedate += "T12:00:00";
-
-                    //LocalDateTime aLD = LocalDateTime.parse(duedate);
-                    //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-                    LocalDateTime dueDate = LocalDateTime.parse(duedate);
-
-                    System.out.println("please add task startdate like this format  (yyyy-MM-dd)");
-                    String startdate = read.next();
-                    startdate += "T12:00:00";
-
-                    LocalDateTime starDate = LocalDateTime.parse(startdate);
-                    System.out.println("please add task finishdate like this format  (yyyy-MM-dd)");
-                    String finishdate = read.next();
-                    finishdate += "T12:00:00";
-
-                    LocalDateTime endDate = LocalDateTime.parse(finishdate);
-                    // id that is  was got from user  is  searching  in the list of task
-                    Database.listofaddedtimedtasklist.add(new Timedtask(timedtaskid, name, String.valueOf(Task.Status.SCHEDULED), dueDate, starDate, endDate));
-
+                            System.out.println("Who do you want to assign?");
+                            String assignedTo = read.next();
+                            Database.listofassignedtasklist.add(new Assigntask(id,name,String.valueOf(Task.Status.ASSIGNED),dueDate,assignedTo));
 
                     }
+
+                }
 
 
                 else if (processid == 3) {
@@ -95,7 +88,6 @@ public class Console {
                     }
 
                 }
-
                 else if (processid == 4) {
                     //ttlist is meaning timed task
                     for (Object ttlist : Database.listofaddedtimedtasklist) {
@@ -103,6 +95,14 @@ public class Console {
                         System.out.println(ttlist);
 
                     }
+                }
+
+                else if(processid==6) {
+                    for(Object assigntask:Database.listofassignedtasklist){
+                        System.out.println(assigntask);
+                    }
+
+                }
 
                 /*
                 else if (processid == 2) {
@@ -297,4 +297,4 @@ public class Console {
 
 
     }
-}
+
