@@ -1,9 +1,12 @@
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
+public class Timedtask extends Task{
+    //public static ArrayList<Object> listofaddedtimedtasklist;
 
-public class Timedtask  extends Task{
 
     private LocalDateTime startDate;
     private LocalDateTime endDate;
@@ -11,5 +14,23 @@ public class Timedtask  extends Task{
         super(id, name, status, dueDate);
         this.startDate=startDate;
         this.endDate=endDate;
+    }
+
+    public  static void addtask(Timedtask task){
+
+        Database.listofaddedtimedtasklist.add(task);
+    }
+
+    @Override
+    public String toString() {
+        return "Timedtask{" +
+                "id=" + super.getId()+" "+
+                "name" + super.getName()+" "+
+                "status" + super.getStatus()+" "+
+                "dueDate" + super.getDueDate()+" "+
+
+                "startDate=" + startDate +
+                ", endDate=" + endDate +
+                '}';
     }
 }

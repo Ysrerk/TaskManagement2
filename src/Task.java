@@ -55,6 +55,11 @@ public class Task {
         this.dueDate = dueDate;
     }
 
+    public  static void addtask(Task task){
+        Database.listofaddedtasklist.add(task);
+
+    }
+
     @Override
     public String toString() {
         return "Task{" +

@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 
 public class Console {
+    List<Object> listofaddedtimedtasklist;
 
 
 
@@ -35,7 +36,7 @@ public class Console {
                 if (processid == 0) {
 
                     break;
-                } else if (processid == 1 ||processid==2||processid==5) {
+                } else if (processid == 1 ||processid==2||processid==5||processid==7) {
                     read.nextLine();
                     System.out.println("please enter task id");
                     int id = Integer.valueOf(read.nextLine());
@@ -53,7 +54,8 @@ public class Console {
 
                     switch(processid){
                         case 1:
-                            Database.listofaddedtasklist.add(new Task(id,name,String.valueOf(Task.Status.ADDED),dueDate));
+                            Task.addtask((new Task(id,name,String.valueOf(Task.Status.ADDED),dueDate)));
+                            //Database.listofaddedtasklist.add(new Task(id,name,String.valueOf(Task.Status.ADDED),dueDate));
                             break;
                         case 2:
                             System.out.println("please add task startdate like this format  (yyyy-MM-dd)");
@@ -66,13 +68,21 @@ public class Console {
                             finishdate += "T12:00:00";
 
                             LocalDateTime endDate = LocalDateTime.parse(finishdate);
-                            Database.listofaddedtimedtasklist.add(new Timedtask(id, name, String.valueOf(Task.Status.SCHEDULED), dueDate, starDate, endDate));
+                            Timedtask.addtask((new Timedtask(id, name, String.valueOf(Task.Status.SCHEDULED), dueDate, starDate, endDate)));
+                            //listofaddedtimedtasklist.add(new Timedtask(id, name, String.valueOf(Task.Status.SCHEDULED), dueDate, starDate, endDate));
                             break;
                         case 5:
 
                             System.out.println("Who do you want to assign?");
                             String assignedTo = read.next();
-                            Database.listofassignedtasklist.add(new Assigntask(id,name,String.valueOf(Task.Status.ASSIGNED),dueDate,assignedTo));
+                            Assigntask.addtask((new Assigntask(id,name,String.valueOf(Task.Status.ASSIGNED),dueDate,assignedTo)));
+                        case 7:
+                            System.out.println("Who do you want to assign?");
+                            String assignedT = read.next();
+                            System.out.println("what isthe budget of  project");
+                            int budget = read.nextInt();
+                            Assignedtimedtask.addtask((new Assignedtimedtask(id,name,String.valueOf(Task.Status.SCHEDULEDASSIGNED),dueDate,assignedT,budget)));
+
 
                     }
 
@@ -90,7 +100,7 @@ public class Console {
                 }
                 else if (processid == 4) {
                     //ttlist is meaning timed task
-                    for (Object ttlist : Database.listofaddedtimedtasklist) {
+                    for (Object ttlist :Database.listofaddedtimedtasklist) {
 
                         System.out.println(ttlist);
 
@@ -102,6 +112,11 @@ public class Console {
                         System.out.println(assigntask);
                     }
 
+                }
+                else if(processid==8){
+                    for (Object assignedtimedtask:Database.listofassignedtimedtasklist){
+                        System.out.println(assignedtimedtask);
+                    }
                 }
 
                 /*
