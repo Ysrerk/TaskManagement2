@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -82,42 +83,49 @@ public class Console {
                             System.out.println("what isthe budget of  project");
                             int budget = read.nextInt();
                             Assignedtimedtask.addtask((new Assignedtimedtask(id,name,String.valueOf(Task.Status.SCHEDULEDASSIGNED),dueDate,assignedT,budget)));
-
-
                     }
-
                 }
-
 
                 else if (processid == 3) {
 
-                    for (Object tlist : Database.listofaddedtasklist) {
-
-
-                        System.out.println(tlist);
-                    }
+                    System.out.println(Database.listofaddedtasklist);
 
                 }
                 else if (processid == 4) {
                     //ttlist is meaning timed task
                     for (Object ttlist :Database.listofaddedtimedtasklist) {
-
                         System.out.println(ttlist);
-
                     }
                 }
-
                 else if(processid==6) {
                     for(Object assigntask:Database.listofassignedtasklist){
                         System.out.println(assigntask);
                     }
-
                 }
                 else if(processid==8){
                     for (Object assignedtimedtask:Database.listofassignedtimedtasklist){
                         System.out.println(assignedtimedtask);
                     }
                 }
+                else if (processid == 9) {
+                    List<Task> sortedTasks = Database.listofaddedtasklist.stream()
+                            .sorted(Comparator.comparing(Task::getName))
+                            .collect(Collectors.toList());
+
+                    /*List<Task> sortedUsers = Database.listofaddedtasklist.stream()
+                            .sorted(Comparator.comparing(Task::getName).reversed())
+                            .collect(Collectors.toList());*/
+                    System.out.println(sortedTasks);
+
+                }
+                else if (processid == 10) {
+                    List<Task> sortedTasks = Database.listofaddedtasklist.stream()
+                            .sorted(Comparator.comparing(Task::getDueDate))
+                            .collect(Collectors.toList());
+                    System.out.println(sortedTasks);
+
+                }
+
 
                 /*
                 else if (processid == 2) {
