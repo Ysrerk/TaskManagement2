@@ -1,3 +1,5 @@
+import org.json.simple.parser.ParseException;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -6,11 +8,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-
 public class Console {
     List<Object> listofaddedtimedtasklist;
-
-
 
         public  static void interactionwithuser() {
 
@@ -105,14 +104,12 @@ public class Console {
                             .sorted(Comparator.comparing(Task::getName).reversed())
                             .collect(Collectors.toList());*/
                     System.out.println(sortedTasks);
-
                 }
                 else if (processid == 10) {
                     List<Task> sortedTasks = Database.listofaddedtasklist.stream()
                             .sorted(Comparator.comparing(Task::getDueDate))
                             .collect(Collectors.toList());
                     System.out.println(sortedTasks);
-
                 }
                 else if (processid == 11) {
                     System.out.println("which task do you want to delete ");
@@ -146,27 +143,19 @@ public class Console {
                     System.out.println("please write new due date like this format  (yyyy-MM-dd)");
                     String newduedate = read.next();
                     newduedate += "T12:00:00";
-
                     LocalDateTime newduedaten = LocalDateTime.parse(newduedate);
-
                     for (Task task : Database.listofaddedtasklist) {
                         if (task.getId()==id) {
-
                             task.setDueDate(newduedaten);
                             System.out.println("Last value of Duedate" + task);
                             break;
-
                         }
                     }
                 }
-
-                /*
-                 else if (processid == 14) {
-
+                else if (processid == 14) {
                     Jsonmake js = new Jsonmake();
-
                     js.jsonmake(Database.listofaddedtasklist);
-                } else if (processid == 15) {
+                }else if (processid == 15) {
                     try {
                         Jsonread.readjson();
                     } catch (IOException e) {
@@ -174,13 +163,8 @@ public class Console {
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                }*/
-
-
+                }
             }
         }
-
-
-
     }
 
