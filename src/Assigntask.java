@@ -16,17 +16,16 @@ public class Assigntask extends Task {
         this.assignedTo = assignedTo;
     }
 
-    public  static void addtask(Assigntask assigntask){
-
-        Database.listofassignedtasklist.add(assigntask);
-
+    @Override
+    public String type() {
+        return "Assigned task";
     }
 
     @Override
     public String toString() {
         return "Assigntask{" +
                 "id"+ super.getId()+" "+
-                "name"+ super.getName()+" "+
+                "name  "+ super.getName()+" "+
                 "status"+ super.getStatus()+ " "+
                 "dueDate"+ super.getDueDate()+ " "+
                 "assignedTo='" + assignedTo + '\'' +

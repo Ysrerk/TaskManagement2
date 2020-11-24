@@ -3,7 +3,11 @@
 public class Main {
 
 
+
+
     public static void main(String[] args) {
-        Console.interactionwithuser();
+
+        Console console=new Console();
+        console.interactionwithuser();
     }
 }

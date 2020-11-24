@@ -16,16 +16,18 @@ public class Timedtask extends Task{
         this.endDate=endDate;
     }
 
-    public  static void addtask(Timedtask task){
 
-        Database.listofaddedtimedtasklist.add(task);
+
+    @Override
+    public String type() {
+        return "Timedtask";
     }
 
     @Override
     public String toString() {
         return "Timedtask{" +
                 "id=" + super.getId()+" "+
-                "name" + super.getName()+" "+
+                "name  " + super.getName()+" "+
                 "status" + super.getStatus()+" "+
                 "dueDate" + super.getDueDate()+" "+
 

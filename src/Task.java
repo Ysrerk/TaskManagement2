@@ -1,6 +1,6 @@
 import java.time.LocalDateTime;
 
-public class Task {
+public abstract  class   Task {
 
     public enum Status{
         ADDED,
@@ -9,7 +9,7 @@ public class Task {
         SCHEDULEDASSIGNED
     }
 
-
+    public  abstract String type();
 
     private int id;
     private String name;
@@ -55,16 +55,12 @@ public class Task {
         this.dueDate = dueDate;
     }
 
-    public  static void addtask(Task task){
-        Database.listofaddedtasklist.add(task);
-
-    }
 
     @Override
     public String toString() {
         return "[" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name=' " + name + '\'' +
                 ", status='" + status + '\'' +
                 ", dueDate=" + dueDate +
                 ']';

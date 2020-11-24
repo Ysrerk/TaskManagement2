@@ -1,18 +1,18 @@
 import java.time.LocalDateTime;
 
-public class Assignedtimedtask  extends  Assigntask{
+public class Assignedtimedtask  extends  Task{
 
-    private int budget;
-
-    public Assignedtimedtask(int id, String name, String status, LocalDateTime dueDate, String assignedTo,int budget) {
-        super(id, name, status, dueDate, assignedTo);
+    public Assignedtimedtask(int id, String name, String status, LocalDateTime dueDate,int budget) {
+        super(id, name, status, dueDate);
         this.budget=budget;
     }
 
-    public  static void addtask(Assignedtimedtask assignedtimedtask){
-
-        Database.listofassignedtimedtasklist.add(assignedtimedtask);
+    public String type() {
+        return "AssignedTimedtask";
     }
+
+    private int budget;
+
 
     @Override
     public String toString() {
@@ -21,7 +21,6 @@ public class Assignedtimedtask  extends  Assigntask{
                 "name"+ super.getName()+ " "+
                 "status"+ super.getStatus() + " "+
                 "dueDate"+ super.getDueDate()+ " "+
-                "assignedTo"+ super.getAssignedTo()+ " "+
                 "budget=" + budget +
                 '}';
     }

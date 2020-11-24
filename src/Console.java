@@ -9,17 +9,22 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class Console {
-    List<Object> listofaddedtimedtasklist;
+    Database database=new Database();
+    Dao dao=new Dao(database);
 
-        public  static void interactionwithuser() {
+
+
+
+        public  void interactionwithuser() {
 
             while (true) {
                 Scanner read = new Scanner(System.in);
                 System.out.println("please chooese  from menu which  type process do you want \n" +
                         "0-exit\n" +
-                        "1-Add new Task\n" +
+
                         "2-Add a task to Timed Task List\n" +
-                        "3-To list Tasks\n" +
+                        "3- List of All Task\n"+
+
                         "4-To list Timed Tasks\n" +
                         "5-To Assign task\n" +
                         "6-To list  assigned task\n" +
@@ -49,7 +54,8 @@ public class Console {
                     LocalDateTime dueDate = LocalDateTime.parse(duedate);
                     switch(processid){
                         case 1:
-                            Task.addtask((new Task(id,name,String.valueOf(Task.Status.ADDED),dueDate)));
+
+                           // dao.addtask((new Task(id,name,String.valueOf(Task.Status.ADDED),dueDate)));
                             //Database.listofaddedtasklist.add(new Task(id,name,String.valueOf(Task.Status.ADDED),dueDate));
                             break;
                         case 2:
@@ -61,42 +67,41 @@ public class Console {
                             String finishdate = read.next();
                             finishdate += "T12:00:00";
                             LocalDateTime endDate = LocalDateTime.parse(finishdate);
-                            Timedtask.addtask((new Timedtask(id, name, String.valueOf(Task.Status.SCHEDULED), dueDate, starDate, endDate)));
-                            //listofaddedtimedtasklist.add(new Timedtask(id, name, String.valueOf(Task.Status.SCHEDULED), dueDate, starDate, endDate));
+                            dao.addtask((new Timedtask(id, name, String.valueOf(Task.Status.SCHEDULED), dueDate, starDate, endDate)));
+
+
                             break;
                         case 5:
                             System.out.println("Who do you want to assign?");
                             String assignedTo = read.next();
-                            Assigntask.addtask((new Assigntask(id,name,String.valueOf(Task.Status.ASSIGNED),dueDate,assignedTo)));
+                            dao.addtask((new Assigntask(id,name,String.valueOf(Task.Status.ASSIGNED),dueDate,assignedTo)));
+                            break;
                         case 7:
                             System.out.println("Who do you want to assign?");
                             String assignedT = read.next();
                             System.out.println("what isthe budget of  project");
                             int budget = read.nextInt();
-                            Assignedtimedtask.addtask((new Assignedtimedtask(id,name,String.valueOf(Task.Status.SCHEDULEDASSIGNED),dueDate,assignedT,budget)));
+                            dao.addtask((new Assignedtimedtask(id,name,String.valueOf(Task.Status.SCHEDULEDASSIGNED),dueDate,budget)));
                     }
                 }
                 else if (processid == 3) {
-                    System.out.println(Database.listofaddedtasklist);
+                    //ttlist is meaning timed task
+                    System.out.println(dao.ltask());
+
                 }
+
                 else if (processid == 4) {
                     //ttlist is meaning timed task
-                    for (Object ttlist :Database.listofaddedtimedtasklist) {
-                        System.out.println(ttlist);
-                    }
+                  dao.listtask("Timedtask");
                 }
                 else if(processid==6) {
-                    for(Object assigntask:Database.listofassignedtasklist){
-                        System.out.println(assigntask);
-                    }
+                    dao.listtask("Assigned task");
                 }
                 else if(processid==8){
-                    for (Object assignedtimedtask:Database.listofassignedtimedtasklist){
-                        System.out.println(assignedtimedtask);
-                    }
+                    dao.listtask("AssignedTimedtask");
                 }
                 else if (processid == 9) {
-                    List<Task> sortedTasks = Database.listofaddedtasklist.stream()
+                    List<Task> sortedTasks = dao.ltask().stream()
                             .sorted(Comparator.comparing(Task::getName))
                             .collect(Collectors.toList());
 
@@ -106,7 +111,7 @@ public class Console {
                     System.out.println(sortedTasks);
                 }
                 else if (processid == 10) {
-                    List<Task> sortedTasks = Database.listofaddedtasklist.stream()
+                    List<Task> sortedTasks = dao.ltask().stream()
                             .sorted(Comparator.comparing(Task::getDueDate))
                             .collect(Collectors.toList());
                     System.out.println(sortedTasks);
@@ -114,9 +119,9 @@ public class Console {
                 else if (processid == 11) {
                     System.out.println("which task do you want to delete ");
                     int id = read.nextInt();
-                    for (Task task : Database.listofaddedtasklist) {
+                    for (Task task : dao.ltask()) {
                         if (task.getId()==id) {
-                            Database.listofaddedtasklist.remove(task);
+                            dao.ltask().remove(task);
                             break;
                         }
                     }
@@ -127,7 +132,7 @@ public class Console {
                     int id = Integer.valueOf(read.nextLine());
                     System.out.println("Please write what do you want to update");
                     String newname = read.nextLine();
-                    for (Task task : Database.listofaddedtasklist) {
+                    for (Task task : dao.ltask()) {
                         if (task.getId()==id) {
                             task.setName(newname);
                             System.out.println(id + " Task is updated.");
@@ -144,7 +149,7 @@ public class Console {
                     String newduedate = read.next();
                     newduedate += "T12:00:00";
                     LocalDateTime newduedaten = LocalDateTime.parse(newduedate);
-                    for (Task task : Database.listofaddedtasklist) {
+                    for (Task task : dao.ltask()) {
                         if (task.getId()==id) {
                             task.setDueDate(newduedaten);
                             System.out.println("Last value of Duedate" + task);
@@ -154,7 +159,7 @@ public class Console {
                 }
                 else if (processid == 14) {
                     Jsonmake js = new Jsonmake();
-                    js.jsonmake(Database.listofaddedtasklist);
+                    js.jsonmake(dao.ltask());
                 }else if (processid == 15) {
                     try {
                         Jsonread.readjson();
